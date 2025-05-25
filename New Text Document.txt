@@ -1,0 +1,879 @@
+><!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>BIGISHOT - Professional Photography & Videography</title>
+
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+
+  <!-- EmailJS -->
+  <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
+
+  <!-- Google Fonts -->
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+
+    body {
+      font-family: 'Poppins', sans-serif;
+      scroll-behavior: smooth;
+    }
+
+    .logo {
+      font-family: 'Poppins', sans-serif;
+      font-weight: 700;
+      letter-spacing: 2px;
+      position: relative;
+    }
+
+    .logo::after {
+      content: '';
+      position: absolute;
+      bottom: -5px;
+      left: 0;
+      width: 100%;
+      height: 3px;
+      background: linear-gradient(90deg, #f59e0b, #ef4444);
+      transform: scaleX(0);
+      transform-origin: left;
+      transition: transform 0.3s ease;
+    }
+
+    .logo:hover::after {
+      transform: scaleX(1);
+    }
+
+    .hero {
+      background: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), url('https://images.unsplash.com/photo-1492684223066-81342ee5ff30?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80');
+      background-size: cover;
+      background-position: center;
+      background-attachment: fixed;
+    }
+
+    .gallery-item {
+      transition: all 0.3s ease;
+      overflow: hidden;
+    }
+
+    .gallery-item:hover {
+      transform: scale(1.03);
+    }
+
+    .gallery-item img {
+      transition: transform 0.5s ease;
+    }
+
+    .gallery-item:hover img {
+      transform: scale(1.1);
+    }
+
+    .service-card {
+      transition: all 0.3s ease;
+      box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1),
+                  0 4px 6px -2px rgba(0, 0, 0, 0.05);
+    }
+
+    .service-card:hover {
+      transform: translateY(-10px);
+      box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1),
+                  0 10px 10px -5px rgba(0, 0, 0, 0.04);
+    }
+
+    .contact-input {
+      transition: all 0.3s ease;
+    }
+
+    .contact-input:focus {
+      box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.3);
+    }
+
+    .back-to-top {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      width: 50px;
+      height: 50px;
+      background-color: #ef4444;
+      color: white;
+      border-radius: 50%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      cursor: pointer;
+      opacity: 0;
+      visibility: hidden;
+      transition: all 0.3s ease;
+      z-index: 999;
+    }
+
+    .back-to-top.active {
+      opacity: 1;
+      visibility: visible;
+    }
+
+    .alert {
+      padding: 15px;
+      margin: 20px;
+      border-radius: 4px;
+      display: none;
+    }
+
+    .alert-success {
+      color: #3c763d;
+      background-color: #dff0d8;
+      border-color: #d6e9c6;
+    }
+
+    .alert-error {
+      color: #a94442;
+      background-color: #f2dede;
+      border-color: #ebccd1;
+    }
+  </style>
+</head>
+
+<body>
+  <!-- Example Alerts -->
+  <div id="successAlert" class="alert alert-success">Message sent successfully!</div>
+  <div id="errorAlert" class="alert alert-error">Failed to send message.</div>
+
+  <!-- Back to Top Button -->
+  <div id="backToTop" class="back-to-top">
+    <i class="fas fa-arrow-up"></i>
+  </div>
+
+  <script>
+    // Show Back to Top on scroll
+    const backToTop = document.getElementById("backToTop");
+
+    window.addEventListener("scroll", () => {
+      if (window.scrollY > 200) {
+        backToTop.classList.add("active");
+      } else {
+        backToTop.classList.remove("active");
+      }
+    });
+
+    backToTop.addEventListener("click", () => {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    });
+
+    // Example function to show alert
+    function showAlert(type) {
+      const success = document.getElementById("successAlert");
+      const error = document.getElementById("errorAlert");
+
+      if (type === "success") {
+        success.style.display = "block";
+        error.style.display = "none";
+      } else {
+        error.style.display = "block";
+        success.style.display = "none";
+      }
+
+      setTimeout(() => {
+        success.style.display = "none";
+        error.style.display = "none";
+      }, 3000);
+    }
+  </script>
+
+</body>
+</html>
+
+</head>
+<body class="bg-gray-100">
+    <!-- Back to Top Button -->
+    <div class="back-to-top" id="backToTop">
+        <i class="fas fa-arrow-up text-xl"></i>
+    </div>
+
+    <!-- Navigation -->
+    <nav class="bg-white shadow-lg sticky top-0 z-50">
+        <div class="container mx-auto px-6 py-3">
+            <div class="flex items-center justify-between">
+                <div class="flex items-center">
+                    <a href="#" class="text-2xl font-bold text-gray-800 logo">BIGISHOT</a>
+                </div>
+                
+                <!-- Mobile menu button -->
+                <div class="md:hidden">
+                    <button class="text-gray-800 focus:outline-none" id="menuBtn">
+                        <i class="fas fa-bars text-2xl"></i>
+                    </button>
+                </div>
+                
+                <!-- Desktop Menu -->
+                <div class="hidden md:flex items-center space-x-8">
+                    <a href="#home" class="text-gray-800 hover:text-red-500 transition">Home</a>
+                    <a href="#about" class="text-gray-800 hover:text-red-500 transition">About</a>
+                    <a href="#services" class="text-gray-800 hover:text-red-500 transition">Services</a>
+                    <a href="#gallery" class="text-gray-800 hover:text-red-500 transition">Gallery</a>
+                    <a href="#contact" class="text-gray-800 hover:text-red-500 transition">Contact</a>
+                    <a href="https://wa.me/message/IEABTABJ2ECSN1" target="_blank"
+     style="
+        display: inline-block;
+        padding: 10px 20px;
+        background-color: #128C7E;
+        color: white;
+        text-decoration: none;
+        border-radius: 5px;
+        transition: all 0.3s ease;
+        margin: 20px;
+     "
+     onmouseover="this.style.transform='scale(1.1)'; this.style.backgroundColor='#25D366';"
+     onmouseout="this.style.transform='scale(1)'; this.style.backgroundColor='#128C7E';">
+    <i class="fab fa-whatsapp"></i> Chat on WhatsApp
+  </a>
+                </div>
+            </div>
+            
+            <!-- Mobile Menu -->
+            <div class="md:hidden hidden mt-4" id="mobileMenu">
+                <a href="#home" class="block py-2 text-gray-800 hover:text-red-500 transition">Home</a>
+                <a href="#about" class="block py-2 text-gray-800 hover:text-red-500 transition">About</a>
+                <a href="#services" class="block py-2 text-gray-800 hover:text-red-500 transition">Services</a>
+                <a href="#gallery" class="block py-2 text-gray-800 hover:text-red-500 transition">Gallery</a>
+                <a href="#contact" class="block py-2 text-gray-800 hover:text-red-500 transition">Contact</a>
+                <a href="https://wa.me/message/IEABTABJ2ECSN1" target="_blank"
+     style="
+        display: inline-block;
+        padding: 10px 20px;
+        background-color: #128C7E;
+        color: white;
+        text-decoration: none;
+        border-radius: 5px;
+        transition: all 0.3s ease;
+        margin: 20px;
+     "
+     onmouseover="this.style.transform='scale(1.1)'; this.style.backgroundColor='#25D366';"
+     onmouseout="this.style.transform='scale(1)'; this.style.backgroundColor='#128C7E';">
+    <i class="fab fa-whatsapp"></i> WhatsApp
+  </a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero min-h-screen flex items-center justify-center text-white" id="home">
+        <div class="container mx-auto px-6 text-center">
+            <h1 class="text-5xl md:text-7xl font-bold mb-6">CAPTURE YOUR <span class="text-red-500">MOMENTS</span></h1>
+            <p class="text-xl md:text-2xl mb-8 max-w-2xl mx-auto">Professional photography and videography services to immortalize your special moments with artistic perfection.</p>
+            <div class="flex flex-col md:flex-row justify-center gap-4">
+                <a href="#contact" class="bg-red-500 hover:bg-red-600 text-white px-8 py-3 rounded-full text-lg font-medium transition">Book Now</a>
+                <a href="#gallery" class="bg-transparent border-2 border-white hover:bg-white hover:text-gray-900 text-white px-8 py-3 rounded-full text-lg font-medium transition">View Gallery</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section class="py-20 bg-white" id="about">
+        <div class="container mx-auto px-6">
+            <div class="text-center mb-16">
+                <h2 class="text-4xl font-bold text-gray-800 mb-4">About <span class="text-red-500">BIGISHOT</span></h2>
+                <div class="w-20 h-1 bg-red-500 mx-auto"></div>
+            </div>
+            
+            <div class="flex flex-col md:flex-row items-center">
+                <div class="md:w-1/2 mb-10 md:mb-0 md:pr-10">
+                    <img src="https://images.unsplash.com/photo-1554080351-a576cf803bda?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1374&q=80" alt="About BIGISHOT" class="rounded-lg shadow-xl w-full">
+                </div>
+                <div class="md:w-1/2">
+                    <h3 class="text-3xl font-bold text-gray-800 mb-6">Capturing Life's Precious Moments</h3>
+                    <p class="text-gray-600 mb-6">BIGISHOT is a premier photography and videography service dedicated to capturing your most precious moments with artistic flair and technical excellence. Founded with a passion for visual storytelling, we specialize in creating timeless memories that you'll cherish forever.</p>
+                    <p class="text-gray-600 mb-6">Our team of professional photographers and videographers combines creativity with state-of-the-art equipment to deliver stunning results for every occasion. From weddings to corporate events, we bring your vision to life.</p>
+                    <div class="flex flex-wrap gap-4">
+                        <div class="bg-gray-100 px-4 py-2 rounded-full flex items-center">
+                            <i class="fas fa-camera text-red-500 mr-2"></i>
+                            <span>Professional Equipment</span>
+                        </div>
+                        <div class="bg-gray-100 px-4 py-2 rounded-full flex items-center">
+                            <i class="fas fa-lightbulb text-red-500 mr-2"></i>
+                            <span>Creative Vision</span>
+                        </div>
+                        <div class="bg-gray-100 px-4 py-2 rounded-full flex items-center">
+                            <i class="fas fa-star text-red-500 mr-2"></i>
+                            <span>Premium Quality</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+     <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Photography Services</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100">
+
+  <!-- Services Section -->
+  <section class="py-20" id="services">
+    <div class="container mx-auto px-6">
+      <div class="text-center mb-16">
+        <h2 class="text-4xl font-bold text-gray-800 mb-4">Our <span class="text-red-500">Services</span></h2>
+        <div class="w-20 h-1 bg-red-500 mx-auto"></div>
+        <p class="text-gray-600 mt-4 max-w-2xl mx-auto">
+          We offer a comprehensive range of photography and videography services tailored to your specific needs.
+        </p>
+      </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <!-- Service 1 -->
+                <div class="bg-white rounded-lg overflow-hidden shadow-md service-card">
+                    <img src="https://images.unsplash.com/photo-1523438885200-e635ba2c371e?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1374&q=80" alt="Wedding Photography" class="w-full h-64 object-cover">
+                    <div class="p-6">
+                        <h3 class="text-2xl font-bold text-gray-800 mb-3">Wedding Photography</h3>
+                        <p class="text-gray-600 mb-4">Capture the magic of your special day with our elegant wedding photography services. We document every precious moment from preparation to reception.</p>
+                        <div class="flex justify-between items-center">
+                            <span class="text-red-500 font-bold">Starting at ₦200,000</span>
+                            <button onclick="openBookingModal('Wedding Photography')" class="text-red-500 hover:text-red-600 font-medium">Book                                       Now</button>
+
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Service 2 - Birthday Photography -->
+                <div class="bg-white rounded-lg overflow-hidden shadow-md service-card">
+                    <img src="https://images.unsplash.com/photo-1517487881594-2787fef5ebf7?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80" alt="Birthday Photography" class="w-full h-64 object-cover">
+                    <div class="p-6">
+                        <h3 class="text-2xl font-bold text-gray-800 mb-3">Birthday Photography</h3>
+                        <p class="text-gray-600 mb-4">Make your birthday celebrations unforgettable with our professional photography services. We capture all the joy, laughter, and special moments of your big day.</p>
+                        <div class="flex justify-between items-center">
+                            <span class="text-red-500 font-bold">Starting at ₦80,000</span>
+                           <button onclick="openBookingModal('Birthday Photography')" class="text-red-500 hover:text-red-600 font-medium">Book                                    Now</button>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Service 3 - Outdoor Photoshoot -->
+                <div class="bg-white rounded-lg overflow-hidden shadow-md service-card">
+                    <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1374&q=80" alt="Outdoor Photoshoot" class="w-full h-64 object-cover">
+                    <div class="p-6">
+                        <h3 class="text-2xl font-bold text-gray-800 mb-3">Outdoor Photoshoot</h3>
+                        <p class="text-gray-600 mb-4">Stunning outdoor portrait sessions that capture your personality against beautiful natural backdrops. Perfect for individuals, couples, or families.</p>
+                        <div class="flex justify-between items-center">
+                            <span class="text-red-500 font-bold">Starting at ₦60,000</span>
+                            <button onclick="openBookingModal('Outdoor Photoshoot')" class="text-red-500 hover:text-red-600 font-medium">Book                                       Now</button>
+                        </div>
+                    </div>
+                </div>
+                
+              <!-- Service 4 - Outdoor Videography -->
+<div class="bg-white rounded-lg overflow-hidden shadow-md service-card">
+  <img src="https://images.unsplash.com/photo-1544161515-4ab6ce6db874?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80" alt="Outdoor Videography" class="w-full h-64 object-cover">
+  <div class="p-6">
+    <h3 class="text-2xl font-bold text-gray-800 mb-3">Outdoor Videography</h3>
+    <p class="text-gray-600 mb-4">Capture your special moments in motion with our professional outdoor videography services. Perfect for events, proposals, or creative projects.</p>
+    <div class="flex justify-between items-center">
+      <span class="text-red-500 font-bold">Starting at ₦120,000</span>
+     <button onclick="openBookingModal('Outdoor Videography')" class="text-red-500 hover:text-red-600 font-medium">Book Now</button>
+    </div>
+  </div>
+</div>
+
+                
+                <!-- Service 5 - Portrait Photography -->
+                <div class="bg-white rounded-lg overflow-hidden shadow-md service-card">
+                    <img src="https://images.unsplash.com/photo-1499750310107-5fef28a66643?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80" alt="Portrait Photography" class="w-full h-64 object-cover">
+                    <div class="p-6">
+                        <h3 class="text-2xl font-bold text-gray-800 mb-3">Portrait Photography</h3>
+                        <p class="text-gray-600 mb-4">Professional portrait sessions for individuals, couples, and families. Perfect for personal branding, social media, or simply capturing your best self.</p>
+                        <div class="flex justify-between items-center">
+                            <span class="text-red-500 font-bold">Starting at ₦50,000</span>
+                            <button onclick="openBookingModal('Portrait Photography')" class="text-red-500 hover:text-red-600 font-medium">Book Now</button>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Service 6 - Event Photography -->
+                <div class="bg-white rounded-lg overflow-hidden shadow-md service-card">
+                    <img src="https://images.unsplash.com/photo-1470229722913-7c0e2dbbafd3?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80" alt="Event Photography" class="w-full h-64 object-cover">
+                    <div class="p-6">
+                        <h3 class="text-2xl font-bold text-gray-800 mb-3">Event Photography</h3>
+                        <p class="text-gray-600 mb-4">Comprehensive coverage for all types of events - birthdays, anniversaries, concerts, and more. We capture the energy and emotion of your occasion.</p>
+                        <div class="flex justify-between items-center">
+                            <span class="text-red-500 font-bold">Starting at ₦80,000</span>
+                            <button onclick="openBookingModal('Event Photography')" class="text-red-500 hover:text-red-600 font-medium">Book Now</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+  
+  
+  <!-- Modal Background -->
+ <div id="bookingModal" class="fixed inset-0 bg-black bg-opacity-50 hidden justify-center items-center z-50">
+  <div class="bg-white rounded-lg shadow-lg max-w-md w-full p-6 relative">
+    <button onclick="closeBookingModal()" class="absolute top-2 right-2 text-gray-500 hover:text-red-500">&times;</button>
+    <h3 class="text-xl font-bold text-gray-800 mb-4">Book <span id="modalServiceName"></span></h3>
+    <form action="https://formsubmit.co/edehchidera508@gmail.com" method="POST" class="space-y-4">
+  <input type="hidden" name="_captcha" value="false">
+  <div>
+    <label for="name" class="block text-sm font-medium text-gray-700">Your Name</label>
+    <input type="text" name="name" id="name" required
+           class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:ring-red-500 focus:border-red-500 text-black">
+  </div>
+  <div>
+    <label for="email" class="block text-sm font-medium text-gray-700">Email</label>
+    <input type="email" name="email" id="email" required
+           class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:ring-red-500 focus:border-red-500 text-black">
+  </div>
+  <div>
+    <label for="message" class="block text-sm font-medium text-gray-700">Message</label>
+    <textarea name="message" id="message" rows="3"
+              class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:ring-red-500 focus:border-red-500 text-black"></textarea>
+  </div>
+  <button type="submit" class="w-full bg-red-500 hover:bg-red-600 text-white py-2 px-4 rounded-md">Submit</button>
+</form>
+
+  </div>
+</div>
+
+<script>
+  function openBookingModal(serviceName) {
+    document.getElementById("modalServiceName").textContent = serviceName;
+    document.getElementById("bookingModal").classList.remove("hidden");
+    document.getElementById("bookingModal").classList.add("flex");
+  }
+
+  function closeBookingModal() {
+    document.getElementById("bookingModal").classList.add("hidden");
+    document.getElementById("bookingModal").classList.remove("flex");
+  }
+</script>
+
+    <!-- Gallery Section -->
+    <section class="py-20 bg-white" id="gallery">
+        <div class="container mx-auto px-6">
+            <div class="text-center mb-16">
+                <h2 class="text-4xl font-bold text-gray-800 mb-4">Our <span class="text-red-500">Gallery</span></h2>
+                <div class="w-20 h-1 bg-red-500 mx-auto"></div>
+                <p class="text-gray-600 mt-4 max-w-2xl mx-auto">A glimpse of our recent work. Each image tells a unique story captured through our lens.</p>
+            </div>
+            
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                <!-- Gallery Item 1 -->
+                <div class="gallery-item rounded-lg overflow-hidden shadow-md relative group">
+                    <img src="https://images.unsplash.com/photo-1519225421980-715cb0215aed?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80" alt="Gallery Image" class="w-full h-64 object-cover">
+                    <div class="absolute inset-0 bg-black bg-opacity-50 flex items-center justify-center opacity-0 group-hover:opacity-100 transition">
+                        <h3 class="text-white text-xl font-bold">Wedding Moments</h3>
+                    </div>
+                </div>
+                
+                <!-- Gallery Item 2 -->
+                <div class="gallery-item rounded-lg overflow-hidden shadow-md relative group">
+                    <img src="https://images.unsplash.com/photo-1529626455594-4ff0732a5620?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1471&q=80" alt="Gallery Image" class="w-full h-64 object-cover">
+                    <div class="absolute inset-0 bg-black bg-opacity-50 flex items-center justify-center opacity-0 group-hover:opacity-100 transition">
+                        <h3 class="text-white text-xl font-bold">Portrait Session</h3>
+                    </div>
+                </div>
+                
+                <!-- Gallery Item 3 -->
+                <div class="gallery-item rounded-lg overflow-hidden shadow-md relative group">
+                    <img src="https://images.unsplash.com/photo-1492684223066-81342ee5ff30?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80" alt="Gallery Image" class="w-full h-64 object-cover">
+                    <div class="absolute inset-0 bg-black bg-opacity-50 flex items-center justify-center opacity-0 group-hover:opacity-100 transition">
+                        <h3 class="text-white text-xl font-bold">Concert Energy</h3>
+                    </div>
+                </div>
+                
+                <!-- Gallery Item 4 -->
+                <div class="gallery-item rounded-lg overflow-hidden shadow-md relative group">
+                    <img src="https://images.unsplash.com/photo-1492681290082-e932832941e6?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1471&q=80" alt="Gallery Image" class="w-full h-64 object-cover">
+                    <div class="absolute inset-0 bg-black bg-opacity-50 flex items-center justify-center opacity-0 group-hover:opacity-100 transition">
+                        <h3 class="text-white text-xl font-bold">Festival Vibes</h3>
+                    </div>
+                </div>
+                
+                <!-- Gallery Item 5 -->
+                <div class="gallery-item rounded-lg overflow-hidden shadow-md relative group">
+                    <img src="https://images.unsplash.com/photo-1513151235238-1a3b25f6d0c5?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80" alt="Gallery Image" class="w-full h-64 object-cover">
+                    <div class="absolute inset-0 bg-black bg-opacity-50 flex items-center justify-center opacity-0 group-hover:opacity-100 transition">
+                        <h3 class="text-white text-xl font-bold">Corporate Event</h3>
+                    </div>
+                </div>
+                
+                <!-- Gallery Item 6 -->
+                <div class="gallery-item rounded-lg overflow-hidden shadow-md relative group">
+                    <img src="https://images.unsplash.com/photo-1519671482749-fd09be7ccebf?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80" alt="Gallery Image" class="w-full h-64 object-cover">
+                    <div class="absolute inset-0 bg-black bg-opacity-50 flex items-center justify-center opacity-0 group-hover:opacity-100 transition">
+                        <h3 class="text-white text-xl font-bold">Product Showcase</h3>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="text-center mt-12">
+                <a href="#contact" class="bg-red-500 hover:bg-red-600 text-white px-8 py-3 rounded-full text-lg font-medium transition">Book Your Session</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Testimonials Section -->
+    <section class="py-20 bg-gray-100">
+        <div class="container mx-auto px-6">
+            <div class="text-center mb-16">
+                <h2 class="text-4xl font-bold text-gray-800 mb-4">Client <span class="text-red-500">Testimonials</span></h2>
+                <div class="w-20 h-1 bg-red-500 mx-auto"></div>
+                <p class="text-gray-600 mt-4 max-w-2xl mx-auto">Hear what our clients have to say about their experience with BIGISHOT.</p>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <!-- Testimonial 1 -->
+                <div class="bg-white p-8 rounded-lg shadow-md">
+                    <div class="flex items-center mb-4">
+                        <div class="text-yellow-400 text-xl">
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                        </div>
+                    </div>
+                    <p class="text-gray-600 mb-6">"BIGISHOT captured our wedding day perfectly! Every photo tells a story and brings back the emotions of that special day. Their attention to detail is unmatched."</p>
+                    <div class="flex items-center">
+                        <img src="https://randomuser.me/api/portraits/women/32.jpg" alt="Client" class="w-12 h-12 rounded-full mr-4">
+                        <div>
+                            <h4 class="font-bold text-gray-800">Amina Yusuf</h4>
+                            <p class="text-gray-600 text-sm">Wedding Client</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Testimonial 2 -->
+                <div class="bg-white p-8 rounded-lg shadow-md">
+                    <div class="flex items-center mb-4">
+                        <div class="text-yellow-400 text-xl">
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+            <div class="text-center mb-16">
+                <h2 class="text-4xl font-bold text-gray-800 mb-4">Get In <span class="text-red-500">Touch</span></h2>
+                <div class="w-20 h-1 bg-red-500 mx-auto"></div>
+                <p class="text-gray-600 mt-4 max-w-2xl mx-auto">Ready to book your session or have questions? Contact us using the form below or through our direct contact information.</p>
+            </div>
+            
+            <div class="flex flex-col lg:flex-row gap-12">
+                <div class="lg:w-1/2">
+                    <!-- Success and Error Messages -->
+                    <div id="successMessage" class="alert alert-success" style="display: none;">
+                        Your message has been sent successfully! We'll get back to you soon.
+                    </div>
+                    <div id="errorMessage" class="alert alert-error" style="display: none;">
+                        There was an error sending your message. Please try again later.
+                    </div>
+                    
+                    <form id="contactForm" class="space-y-6">
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                            <div>
+                                <label for="name" class="block text-gray-700 font-medium mb-2">Your Name *</label>
+                                <input type="text" id="name" name="name" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-red-500 contact-input" placeholder="John Doe" required>
+                            </div>
+                            <div>
+                                <label for="email" class="block text-gray-700 font-medium mb-2">Email Address *</label>
+                                <input type="email" id="email" name="email" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-red-500 contact-input" placeholder="john@example.com" required>
+                            </div>
+                        </div>
+                        <div>
+                            <label for="phone" class="block text-gray-700 font-medium mb-2">Phone Number *</label>
+                            <input type="tel" id="phone" name="phone" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-red-500 contact-input" placeholder="+234 812 054 4331" required>
+                        </div>
+                        <div>
+                            <label for="service" class="block text-gray-700 font-medium mb-2">Service Interested In *</label>
+                            <select id="service" name="service" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-red-500 contact-input" required>
+                                <option value="">Select a service</option>
+                                <option value="wedding">Wedding Photography</option>
+                                <option value="birthday">Birthday Photography</option>
+                                <option value="outdoor-photo">Outdoor Photoshoot</option>
+                                <option value="outdoor-video">Outdoor Videography</option>
+                                <option value="portrait">Portrait Photography</option>
+                                <option value="event">Event Photography</option>
+                                <option value="custom">Custom Package</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label for="message" class="block text-gray-700 font-medium mb-2">Your Message *</label>
+                            <textarea id="message" name="message" rows="5" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-red-500 contact-input" placeholder="Tell us about your project..." required></textarea>
+                        </div>
+                        <button type="submit" id="submitBtn" class="w-full bg-red-500 hover:bg-red-600 text-white px-6 py-3 rounded-lg text-lg font-medium transition">Send Message</button>
+                    </form>
+                </div>
+                
+                <div class="lg:w-1/2">
+                    <div class="bg-gray-100 p-8 rounded-lg h-full">
+                        <h3 class="text-2xl font-bold text-gray-800 mb-6">Contact Information</h3>
+                        
+                        <div class="space-y-6">
+                            <div class="flex items-start">
+                                <div class="bg-red-100 p-3 rounded-full mr-4">
+                                    <i class="fas fa-map-marker-alt text-red-500 text-xl"></i>
+                                </div>
+                                <div>
+                                    <h4 class="font-bold text-gray-800 mb-1">Our Location</h4>
+                                    <p class="text-gray-600">Rivers State, Port-Harcourt, Nigeria</p>
+                                </div>
+                            </div>
+                            
+                            <div class="flex items-start">
+                                <div class="bg-red-100 p-3 rounded-full mr-4">
+                                    <i class="fas fa-phone-alt text-red-500 text-xl"></i>
+                                </div>
+                                <div>
+                                    <h4 class="font-bold text-gray-800 mb-1">Phone Number</h4>
+                                    <p class="text-gray-600">+234 812 054 4331</p>
+                                </div>
+                            </div>
+                            
+                            <div class="flex items-start">
+                                <div class="bg-red-100 p-3 rounded-full mr-4">
+                                    <i class="fas fa-envelope text-red-500 text-xl"></i>
+                                </div>
+                                <div>
+                                    <h4 class="font-bold text-gray-800 mb-1">Email Address</h4>
+                                    <p class="text-gray-600">edehchidera508@gmail.com</p>
+                                </div>
+                            </div>
+                            
+                            <div class="flex items-start">
+                                <div class="bg-red-100 p-3 rounded-full mr-4">
+                                    <i class="fas fa-clock text-red-500 text-xl"></i>
+                                </div>
+                                <div>
+                                    <h4 class="font-bold text-gray-800 mb-1">Working Hours</h4>
+                                    <p class="text-gray-600">Monday - Friday: 9am - 6pm</p>
+                                    <p class="text-gray-600">Saturday: 10am - 4pm</p>
+                                </div>
+                            </div>
+                        </div>
+                        
+                                      
+                        <div class="mt-8">
+                            <h4 class="font-bold text-gray-800 mb-4">Connect With Us</h4>
+                            <div class="flex space-x-4">
+                                                  <!-- For Whatsapp -->
+                               <a href="https://wa.me/2348120544331?text=Hi%20BIGISHOT%2C%20I%20would%20like%20to%20book%20a%20session"
+                                  class="bg-green-500 text-white p-3 rounded-full whatsapp-btn"
+                                          target="_blank">
+                                           <i class="fab fa-whatsapp text-xl"></i>
+                                        </a>
+                                               <!-- For Facebook -->
+                                <<a href="https://www.facebook.com/chidera.edeh.2025" 
+                                    class="bg-blue-500 text-white p-3 rounded-full hover:bg-blue-600 transition" 
+                                     target="_blank" rel="noopener noreferrer">
+                                     <i class="fab fa-facebook-f text-xl"></i>
+                                   </a>
+
+                               <a href="https://www.instagram.com/bigi_shot"
+                                   class="bg-pink-500 text-white p-3 rounded-full hover:bg-pink-600 transition"
+                                   target="_blank" rel="noopener noreferrer">
+                                   <i class="fab fa-instagram text-xl"></i>
+                                  </a>
+
+                                <a href="#" class="bg-blue-400 text-white p-3 rounded-full hover:bg-blue-500 transition">
+                                    <i class="fab fa-twitter text-xl"></i>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-gray-900 text-white py-12">
+        <div class="container mx-auto px-6">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+                <div>
+                    <h3 class="text-2xl font-bold mb-4 logo">BIGISHOT</h3>
+                    <p class="text-gray-400">Capturing life's precious moments with artistic perfection and technical excellence.</p>
+                </div>
+                
+                <div>
+                    <h4 class="text-lg font-bold mb-4">Quick Links</h4>
+                    <ul class="space-y-2">
+                        <li><a href="#home" class="text-gray-400 hover:text-white transition">Home</a></li>
+                        <li><a href="#about, class="text-gray-400 hover:text-white transition">About</a></li>
+                        <li><a href="#services" class="text-gray-400 hover:text-white transition">Services</a></li>
+                        <li><a href="#gallery" class="text-gray-400 hover:text-white transition">Gallery</a></li>
+                        <li><a href="#contact" class="text-gray-400 hover:text-white transition">Contact</a></li>
+                    </ul>
+                </div>
+                
+                <div>
+                    <h4 class="text-lg font-bold mb-4">Services</h4>
+                    <ul class="space-y-2">
+                        <li><a href="#" class="text-gray-400 hover:text-white transition">Wedding Photography</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white transition">Birthday Photography</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white transition">Outdoor Photoshoot</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white transition">Outdoor Videography</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white transition">Portrait Photography</a></li>
+                    </ul>
+                </div>
+                
+                <div>
+                    <h4 class="text-lg font-bold mb-4">Contact Info</h4>
+                    <ul class="space-y-2">
+                        <li class="flex items-center">
+                            <i class="fas fa-map-marker-alt text-red-500 mr-2"></i>
+                            <span class="text-gray-400">Rivers State, Port-Harcourt, Nigeria</span>
+                        </li>
+                        <li class="flex items-center">
+                            <i class="fas fa-phone-alt text-red-500 mr-2"></i>
+                            <span class="text-gray-400">+234 812 054 4331</span>
+                        </li>
+                        <li class="flex items-center">
+                            <i class="fas fa-envelope text-red-500 mr-2"></i>
+                            <span class="text-gray-400">edehchidera508@gmail.com</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="border-t border-gray-800 mt-8 pt-8 flex flex-col md:flex-row justify-between items-center">
+                <p class="text-gray-400 mb-4 md:mb-0">© 2023 BIGISHOT. All rights reserved.</p>
+                <div class="flex space-x-6">
+                    <a href="https://wa.me/2348120544331" class="text-gray-400 hover:text-white transition">
+                        <i class="fab fa-whatsapp text-xl"></i>
+                    </a>
+                    <a href="#" class="text-gray-400 hover:text-white transition">
+                        <i class="fab fa-facebook-f text-xl"></i>
+                    </a>
+                    <a href="#" class="text-gray-400 hover:text-white transition">
+                        <i class="fab fa-instagram text-xl"></i>
+                    </a>
+                    <a href="#" class="text-gray-400 hover:text-white transition">
+                        <i class="fab fa-twitter text-xl"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Initialize EmailJS with your public key
+        (function() {
+            emailjs.init("sMBZK-yRWCif6wZMi"); // Replace with your EmailJS public key
+        })();
+
+        // Mobile Menu Toggle
+        const menuBtn = document.getElementById('menuBtn');
+        const mobileMenu = document.getElementById('mobileMenu');
+        
+        menuBtn.addEventListener('click', () => {
+            mobileMenu.classList.toggle('hidden');
+        });
+        
+        // Back to Top Button
+        const backToTop = document.getElementById('backToTop');
+        
+        window.addEventListener('scroll', () => {
+            if (window.pageYOffset > 300) {
+                backToTop.classList.add('active');
+            } else {
+                backToTop.classList.remove('active');
+            }
+        });
+        
+        backToTop.addEventListener('click', () => {
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+        });
+        
+        // Smooth Scrolling for Navigation Links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                e.preventDefault();
+                
+                const targetId = this.getAttribute('href');
+                const targetElement = document.querySelector(targetId);
+                
+                if (targetElement) {
+                    window.scrollTo({
+                        top: targetElement.offsetTop - 80,
+                        behavior: 'smooth'
+                    });
+                    
+                    // Close mobile menu if open
+                    if (!mobileMenu.classList.contains('hidden')) {
+                        mobileMenu.classList.add('hidden');
+                    }
+                }
+            });
+        });
+
+       
+  <!-- Contact Form -->
+<form id="contactForm">
+  <input type="text" id="name" placeholder="Your Name" required />
+  <input type="email" id="email" placeholder="Your Email" required />
+  <input type="text" id="phone" placeholder="Your Phone" required />
+
+  <select id="service" required>
+    <option value="">Select a Service</option>
+    <option value="Web Design">Web Design</option>
+    <option value="Consulting">Consulting</option>
+  </select>
+
+  <textarea id="message" placeholder="Your Message" required></textarea>
+
+  <button type="submit" id="submitBtn">Send Message</button>
+</form>
+
+<!-- Feedback Messages -->
+<div id="successMessage" style="display:none; color:green;">✅ Message sent successfully!</div>
+<div id="errorMessage" style="display:none; color:red;"></div>
+
+<!-- Load SDK -->
+<script src="https://cdn.emailjs.com/dist/email.min.js"></script>
+
+<!-- Your Script -->
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    emailjs.init("LKmfh8s20RzdQrvlJ"); // ✅ Your public key here
+
+    document.getElementById("contactForm").addEventListener("submit", function (e) {
+      e.preventDefault();
+
+      const submitBtn = document.getElementById("submitBtn");
+      const successMessage = document.getElementById("successMessage");
+      const errorMessage = document.getElementById("errorMessage");
+
+      submitBtn.disabled = true;
+      submitBtn.textContent = "Sending...";
+      successMessage.style.display = "none";
+      errorMessage.style.display = "none";
+
+      const formData = {
+        name: document.getElementById("name").value,
+        email: document.getElementById("email").value,
+        phone: document.getElementById("phone").value,
+        service: document.getElementById("service").value,
+        message: document.getElementById("message").value
+      };
+
+      emailjs.send("service_uskycih", "template_gfjclew", formData)
+        .then(function (response) {
+          successMessage.style.display = "block";
+          document.getElementById("contactForm").reset();
+          successMessage.scrollIntoView({ behavior: "smooth" });
+        })
+        .catch(function (error) {
+          console.error("EmailJS Error:", error);
+          errorMessage.style.display = "block";
+          errorMessage.textContent = "❌ Error: " + JSON.stringify(error);
+        })
+        .finally(() => {
+          submitBtn.disabled = false;
+          submitBtn.textContent = "Send Message";
+        });
+    });
+  });
+</script>
